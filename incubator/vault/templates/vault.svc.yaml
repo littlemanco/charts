@@ -1,0 +1,18 @@
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "secret-management"
+  namespace: {{ default "default" .Values.namespace }}
+  labels:
+    application: "vault"
+    role: "secret-management"
+spec:
+  selector:
+    application: "vault"
+    role: "secret-management"
+  ports:
+    - protocol: "TCP"
+      name: "http"
+      port: 8200
+  type: {{ default "ClusterIP" | .Values.serviceType }}
