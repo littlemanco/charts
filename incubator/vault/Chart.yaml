@@ -1,0 +1,14 @@
+---
+name: "vault"
+version: "0.6.2"
+description: "A tool for managing secrets."
+keywords:
+  - "Secret"
+home: "https://www.vaultproject.io/"
+sources:
+  - "https://github.com/hashicorp/vault"
+maintainers: 
+  - name: "Andrew Howden"
+    email: "hello@andrewhowden.com"
+engine: gotpl 
+icon: "https://placekitten.com/g/300/200" # Todo: This must be SVG or PNG
