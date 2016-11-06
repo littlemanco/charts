@@ -21,8 +21,9 @@ data:
           "scheme": {{ .Values.consulScheme | quote }},
           "token": {{ .Values.consulToken | quote }},
           "path": {{ .Values.consulPath | quote }}{{ if eq .Values.consulScheme "https"}},
-
-          {{ end }}
+          "tls_ca_file": {{ default "" .Values.consulTlsCaFile | quote }},
+          "tls_cert_file": {{ default "" .Values.consulTlsCertFile | quote }},
+          "tls_key_file": {{ default "" .Values.consulTlsKeyFile | quote }}{{ end }}
         }
       }
     }
