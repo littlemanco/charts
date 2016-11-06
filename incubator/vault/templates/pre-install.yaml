@@ -16,15 +16,15 @@ kind: "Job"
 metadata:
   labels:
     application: "vault"
-    role: "secret-management"
-  name: "secret-management"
+    role: "bootstrap"
+  name: "bootstrap"
   namespace: {{ default "default" .Values.namespace }}
 spec:
   template:
     metadata:
       labels:
         application: "vault"
-        role: "secret-management"
+        role: "bootstrap"
     spec:
       volumes:
       - name: "vault-config"
