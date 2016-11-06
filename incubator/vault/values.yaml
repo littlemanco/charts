@@ -19,6 +19,12 @@
 ## ref: https://www.vaultproject.io/docs/config/index.html#backend-reference-consul
 consulEndpoint:
 
+consulScheme: "http"
+
+consuleToken: ""
+
+consolPath: ""
+
 ## The minimum TLS version required to connect to Vault
 ## ref: https://www.vaultproject.io/docs/config/#tls_min_version
 ## default: "tls12"

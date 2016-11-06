@@ -20,7 +20,7 @@ data:
           "address": {{ .Values.consulAddress | quote }},
           "scheme": {{ .Values.consulScheme | quote }},
           "token": {{ .Values.consulToken | quote }},
-          "path": {{ .Values.consulPath | quote }}{{ if .Values.consulScheme eq "https"}},
+          "path": {{ .Values.consulPath | quote }}{{ if eq .Values.consulScheme "https"}},
 
           {{ end }}
         }
