@@ -13,13 +13,16 @@ metadata:
   name: "vault-config"
   namespace: {{ default "default" .Values.namespace }}
 data:
-  # The URL suffix (.cluster.local) of the Kubernetes service URLs is configurable. The search configuration in the resolv.conf
-  # injected into this pod should resolve this domain correctly, no matter the .cluster.local
   config.json: |
     {
       "backend": {
-        "etcd": {
-          "address": "vault-etcd.{{ default "default" .Values.namespace }}.svc"
+          "consul": {
+          "address": {{ .Values.consulAddress | quote }},
+          "scheme": {{ .Values.consulScheme | quote }},
+          "token": {{ .Values.consulToken | quote }},
+          "path": {{ .Values.consulPath | quote }}{{ if .Values.consulScheme eq "https"}},
+
+          {{ end }}
         }
       }
     }

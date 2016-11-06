@@ -15,6 +15,10 @@
 ## default: "ClusterIP"
 # serviceType
 
+## The endpoint of a previously configured consul cluster
+## ref: https://www.vaultproject.io/docs/config/index.html#backend-reference-consul
+consulEndpoint:
+
 ## The minimum TLS version required to connect to Vault
 ## ref: https://www.vaultproject.io/docs/config/#tls_min_version
 ## default: "tls12"
