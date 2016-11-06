@@ -32,15 +32,12 @@ spec:
           name: "vault-config"
       containers:
       - name: "vault"
-        # env:
-        # - name: "FOO"
-        #   value: "BAR"
         image: "vault:0.6.2" # Todo: Update this
         imagePullPolicy: "IfNotPresent"
-        # args:
-        #   - "command"
-        #   - "line"
-        #   - "arguments"
+        args:
+          - "server"
+          - "--config"
+          - "/vault/config"
         resources:
           limits:
             cpu: "100m"
