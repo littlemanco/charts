@@ -19,7 +19,7 @@ data:
     {
       "backend": {
         "etcd" {
-          "address": "vault-etcd.{{ default "default" .Values.namespace }}".svc"
+          "address": "vault-etcd.{{ default "default" .Values.namespace }}.svc"
         }
       }
     }
