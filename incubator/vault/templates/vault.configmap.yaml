@@ -18,7 +18,7 @@ data:
   config.json: |
     {
       "backend": {
-        "etcd" {
+        "etcd": {
           "address": "vault-etcd.{{ default "default" .Values.namespace }}.svc"
         }
       }
