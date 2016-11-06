@@ -3,7 +3,7 @@ kind: "Service"
 apiVersion: "v1"
 metadata:
   name: "secret-management"
-  namespace: {{ default "default" .Values.namespace }}
+  namespace: {{ default "default" .Values.namespace | quote }}
   labels:
     application: "vault"
     role: "secret-management"
@@ -15,4 +15,4 @@ spec:
     - protocol: "TCP"
       name: "http"
       port: 8200
-  type: {{ default "ClusterIP" | .Values.serviceType }}
+  type: {{ default "ClusterIP" .Values.serviceType | quote }}

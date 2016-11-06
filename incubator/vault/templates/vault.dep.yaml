@@ -7,7 +7,7 @@ metadata:
     application: "vault"
     role: "secret-management"
   name: "secret-management"
-  namespace: "{{ default "default" .Values.namespace }}"
+  namespace: {{ default "default" .Values.namespace | quote }}
 spec:
   replicas: 2
   selector:
@@ -67,15 +67,16 @@ spec:
         #   readOnly: false
         #   mountPath: "/data"
         livenessProbe:
+          # Todo: Liveness should just be TCP. Readiness is when the vault is actually unsealed
           httpGet:
-            # Path to probe; should be cheap, but representative of typical behavior
+            # Determines whether or not the vault container has booted successfully
             path: "/sys/health"
             port: "http"
           initialDelaySeconds: 5
           timeoutSeconds: 1
         readinessProbe:
           httpGet:
-            # Path to probe; akin to a status check. 
+            # Determines whether the vault container is unsealed, and available to serve requests
             path: "/sys/health"
             port: "http"
           initialDelaySeconds: 5
