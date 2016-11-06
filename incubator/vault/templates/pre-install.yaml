@@ -55,11 +55,11 @@ spec:
           protocol: "TCP"
           name: "http"
         volumeMounts:
-        - name: "vault-config"
+        - name: "vault-config-core"
           readOnly: true
           mountPath: "/vault/config"
           subPath: "config.hcl"
-        - name: "vault-config"
+        - name: "vault-config-bootstrap"
           readOnly: true
           mountPath: "/vault/config"
           subPath: "bootstrap.hcl"
@@ -70,7 +70,7 @@ spec:
           timeoutSeconds: 1
         readinessProbe:
           tcpSocket:
-            port: http
+            port: "http"
           initialDelaySeconds: 5
           timeoutSeconds: 1
       restartPolicy: "Never"
