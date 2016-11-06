@@ -18,7 +18,7 @@ metadata:
     application: "vault"
     role: "bootstrap"
   name: "bootstrap"
-  namespace: {{ default "default" .Values.namespace }}
+  namespace: {{ default "default" .Values.namespace | quote }}
 spec:
   template:
     metadata:
@@ -32,7 +32,7 @@ spec:
           name: "vault-config"
       containers:
       - name: "vault"
-        image: {{ default "vault: 0.6.2" .Values.vaultContainer | quote }}
+        image: {{ default "vault:0.6.2" .Values.vaultContainer | quote }}
         imagePullPolicy: "IfNotPresent"
         args:
           - "server"

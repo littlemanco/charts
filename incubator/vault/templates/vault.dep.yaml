@@ -37,7 +37,7 @@ spec:
         # env:
         # - name: "FOO"
         #   value: "BAR"
-        image: "vault:0.6.2" # Todo: Update this
+        image: {{ default "vault:0.6.2" .Values.vaultContainer | quote }}
         imagePullPolicy: "IfNotPresent"
         # args:
         #   - "command"
