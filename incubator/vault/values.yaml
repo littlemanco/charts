@@ -1,1 +1,26 @@
 ---
+## The namespace that Vault should be deployed into. Must exist prior to installing this application. 
+## ref: http://kubernetes.io/docs/user-guide/namespaces/
+## default: "default"
+# namespace
+
+## The minimum TLS version required to connect to Vault
+## ref: https://www.vaultproject.io/docs/config/#tls_min_version
+## default: "tls12"
+# tlsMinVersion
+
+## The type of Kubernetes service on which to expose Vault. Can be one of "ExternalName", "ClusterIP", "NodePort", "LoadBalancer"
+## ref: http://kubernetes.io/docs/user-guide/services/#publishing-services---service-types
+## default: "ClusterIP"
+# serviceType
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "100m"
+
