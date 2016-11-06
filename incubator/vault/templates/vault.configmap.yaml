@@ -1,33 +1,26 @@
 ---
 # README
 #
-# The listen.hcl file is not mounted into the bootstrap container. This means the container only communicates insecurely over
-# localhost; a requirement to set up the initial PKI backend to issue certificates for later use.
+# This does not contain the listen directives. These are varied based on how the vault server is being executed:
+# - The bootstrap job only listens over HTTP localhost
+# - The production deployment only listens over HTTPS on all interfaces
 #
-# The bootstrap.hcl file is not mounted into the server containers, used in production. All communication must be secure.
+# This is so we can use vault servers PKI backend to generate the SSL certifices vault clients will later use
+# to connect to it.
 apiVersion: "v1"
 kind: "ConfigMap"
 metadata:
   name: "vault-config"
   namespace: {{ default "default" .Values.namespace }}
 data:
-  config.hcl: |
-    backend "etcd" {
-      # The URL suffix (.cluster.local) of the Kubernetes service URLs is configurable. The search configuration in the resolv.conf
-      # injected into this pod should resolve this domain correctly, no matter the .cluster.local
-      address = "vault-etcd.{{ default "default" .Values.namespace }}.svc"
+  # The URL suffix (.cluster.local) of the Kubernetes service URLs is configurable. The search configuration in the resolv.conf
+  # injected into this pod should resolve this domain correctly, no matter the .cluster.local
+  config.json: |
+    {
+      "backend": {
+        "etcd" {
+          "address": "vault-etcd.{{ default "default" .Values.namespace }}".svc"
+        }
+      }
     }
-  listen.hcl: |
-    listener "tcp" {
-      address = "0.0.0.0:8200"
-      tls_cert_file = /etc/tls/cert.pem
-      tls_key_file = /etc/tls/key.pem
-      tls_min_version = {{ default "tls12" .Values.tlsMinVersion }}
-    }
-  bootstrap.hcl: |
-    # We allow Vault access insecurely over 127.0.0.1. This is required to set the pods up initially; because the only things bound
-    # to the local network interface are those being run inside the pod, which are considered "trusted".
-    listener "tcp" {
-      address = "127.0.0.1:8200"
-      tls_disable = 1
-    }
+
