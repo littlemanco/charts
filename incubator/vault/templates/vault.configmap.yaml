@@ -17,7 +17,7 @@ data:
     {
       "backend": {
           "consul": {
-          "address": {{ default "vault-consul" .Values.consulAddress | quote }},
+          "address": "vault-consul.{{ default "default" .Values.namespace }}.svc",
           "scheme": {{ default "http" .Values.consulScheme | quote }},
           "token": {{ default "" .Values.consulToken | quote }},
           "path": {{ default "/vault" .Values.consulPath | quote }}{{ if eq .Values.consulScheme "https"}},
