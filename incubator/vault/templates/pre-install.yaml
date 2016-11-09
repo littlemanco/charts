@@ -33,21 +33,22 @@ spec:
       containers:
       - name: "vault"
         env:
+        image: {{ default "vault:0.6.2" .Values.vaultContainer | quote }}
+        imagePullPolicy: "IfNotPresent"
         # Vault cannot determine what address it should use to advertise when running in H/A. We use the pod IP as the
         # advertise address; so long as the discovery mechanism of the service is OK, we should be able to
         # horizontally scale vault.
         #
-        # See http://stackoverflow.com/a/34418819
-        - name: "VAULT_REDIRECT_ADDR"
-          valueFrom:
-            fieldRef:
-              fieldPath: "status.podIP"
-        - name: "VAULT_CLUSTER_ADDR"
-          valueFrom:
-            fieldRef:
-              fieldPath: "status.podIP"
-        image: {{ default "vault:0.6.2" .Values.vaultContainer | quote }}
-        imagePullPolicy: "IfNotPresent"
+        # https://www.vaultproject.io/docs/concepts/ha.htmldirect-access
+        # https://github.com/kubernetes/kubernetes/issues/1331#issuecomment-56194881
+        cmd:
+          - "sh"
+          - "-c"
+          # HTTP is used as SSL is not set up for this node yet.
+          - |
+              VAULT_REDIRECT_ADDR="http://$(hostname -I):8200" \
+              VAULT_CLUSTER_ADDR="http://$(hostame -I):8200" \
+              env && /docker-entrypoint.sh
         args:
           - "server"
           - "--config"
