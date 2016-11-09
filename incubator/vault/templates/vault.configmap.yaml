@@ -17,10 +17,10 @@ data:
     {
       "backend": {
           "consul": {
-          "address": {{ .Values.consulAddress | quote }},
-          "scheme": {{ .Values.consulScheme | quote }},
-          "token": {{ .Values.consulToken | quote }},
-          "path": {{ .Values.consulPath | quote }}{{ if eq .Values.consulScheme "https"}},
+          "address": {{ default "vault-consul" .Values.consulAddress | quote }},
+          "scheme": {{ default "http" .Values.consulScheme | quote }},
+          "token": {{ default "" .Values.consulToken | quote }},
+          "path": {{ default "/vault" .Values.consulPath | quote }}{{ if eq .Values.consulScheme "https"}},
           "tls_ca_file": {{ default "" .Values.consulTlsCaFile | quote }},
           "tls_cert_file": {{ default "" .Values.consulTlsCertFile | quote }},
           "tls_key_file": {{ default "" .Values.consulTlsKeyFile | quote }}{{ end }}
