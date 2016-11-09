@@ -41,14 +41,11 @@ spec:
         #
         # https://www.vaultproject.io/docs/concepts/ha.htmldirect-access
         # https://github.com/kubernetes/kubernetes/issues/1331#issuecomment-56194881
-        cmd:
+        command:
           - "sh"
           - "-c"
           # HTTP is used as SSL is not set up for this node yet.
-          - |
-              VAULT_REDIRECT_ADDR="http://$(hostname -I):8200" \
-              VAULT_CLUSTER_ADDR="http://$(hostame -I):8200" \
-              env && /docker-entrypoint.sh
+          - "VAULT_REDIRECT_ADDR=\"http://$(hostname -I):8200\" VAULT_CLUSTER_ADDR=\"http://$(hostame -I):8200\" env && /docker-entrypoint.sh"
         args:
           - "server"
           - "--config"
