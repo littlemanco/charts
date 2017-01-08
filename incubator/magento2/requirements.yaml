@@ -1,0 +1,8 @@
+---
+dependencies:
+  - name: "mysql"
+    version: "0.2.3"
+    repository: "https://storage.googleapis.com/kubernetes-charts/"
+  - name: "redis"
+    version: "0.4.2"
+    repository: "https://storage.googleapis.com/kubernetes-charts/"

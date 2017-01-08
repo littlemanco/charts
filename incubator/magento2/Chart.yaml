@@ -1,0 +1,19 @@
+---
+name: "magento2"
+apiVersion: "v1"
+description: "A helm chart for Magento 2"
+keywords:
+  - "E-commerce"
+  - "Magento"
+  - "PHP"
+home: "https://magento.com/"
+version: "1.0.0"
+sources:
+  - "https://github.com/magento/magento2"
+maintainers:
+  - name: "Andrew Howden"
+    email: "hello@andrewhowden.com"
+engine: gotpl
+# Todo: This is just a hotlink. Should probably find a suitable image to replace with, and host it in the GitHub
+# repo where it can be accessed by RAW.
+icon: "https://magento.com/sites/all/themes/mag_redesign/images/magento-logo.svg"

@@ -1,0 +1,10 @@
+===========================
+{{ template "fullname" . }}
+===========================
+
+Accessing {{ template "fullname" . }}
+-------------------------------------
+
+// Todo: Fill this in.
+
+For more information, see the README.

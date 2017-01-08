@@ -1,0 +1,54 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Job"
+metadata:
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "fullname" . }}
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        release: "{{ .Release.Name }}"
+    spec:
+      # volumes:
+      # - name: "secret-management-etc-conf-d"
+      # configMap:
+      #   name: "secret-management-etc-conf-d"
+      # - name: "secret-management-data"
+      #   hostPath:
+      #     path: /data/secret-management/
+      containers:
+        - name: {{ template "name" }}
+          # env:
+          # - name: "FOO"
+          #   value: "BAR"
+          image: {{ .Values.image | quote }}
+          # args:
+          #   - "command"
+          #   - "line"
+          #   - "arguments"
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+          securityContext:
+            privileged: false
+          # volumeMounts:
+          # - name: "secret-management-etc-conf-d"
+          #   readOnly: true
+          #   mountPath: "/etc/secret-management/conf.d"
+          # - name: "secret-management-data
+          #   readOnly: false
+          #   mountPath: "/data"
+      # If, for whatever reason, the container fails it should restart from scratch. Scripts in the container to
+      # compile Magento should be idempotent, so restarting is fine.
+      restartPolicy: "OnFailure"
+      securityContext: {}

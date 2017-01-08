@@ -1,0 +1,9 @@
+dependencies:
+- name: mysql
+  repository: https://storage.googleapis.com/kubernetes-charts/
+  version: 0.2.3
+- name: redis
+  repository: https://storage.googleapis.com/kubernetes-charts/
+  version: 0.4.2
+digest: sha256:5e564052dafb660a7ce271ed9310accd3a84fef0f168b409c308e898760af679
+generated: 2017-01-08T13:17:53.691411286+01:00

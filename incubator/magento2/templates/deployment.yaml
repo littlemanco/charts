@@ -1,0 +1,78 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "fullname" . }}
+spec:
+  replicas: {{ default 2 .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      release: "{{ .Release.Name }}" 
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: "RollingUpdate"
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        release: "{{ .Release.Name }}" 
+    spec:
+      # volumes:
+      #   - name: "webserver-etc-conf-d"
+      # configMap:
+      #   - name: "webserver-data"
+      #     hostPath:
+      #       path: /data/webserver/
+      containers:
+        - name: {{ template "name" }}
+          # env:
+          # - name: "FOO"
+          #   value: "BAR"
+          image: {{ .Values.image | quote }}
+          # args:
+          #   - "command"
+          #   - "line" 
+          #   - "arguments"
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+          securityContext:
+            privileged: false
+          ports:
+            - containerPort: 80
+              protocol: "TCP"
+              name: "http"
+            - containerPort: 443
+              protocol: "TCP"
+              name: "https"
+          # volumeMounts:
+          #   - name: "webserver-etc-conf-d"
+          #     readOnly: true
+          #     mountPath: "/etc/webserver/conf.d"
+          #   - name: "webserver-data
+          #     readOnly: false
+          #     mountPath: "/data"
+          livenessProbe:
+            tcpSocket:
+              port: "http"
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+          readinessProbe:
+            tcpSocket:
+              port: "http"
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+      restartPolicy: "Always"
+      securityContext: {} 
