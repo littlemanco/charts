@@ -9,7 +9,7 @@ metadata:
     release: "{{ .Release.Name }}"
   name: {{ template "satis.fullname" . }}
 spec:
-  replicas: {{ default 2 .Values.replicas }}
+  replicas: {{ default 1 .Values.replicas }}
   selector:
     matchLabels:
       app: {{ template "satis.fullname" . }}
