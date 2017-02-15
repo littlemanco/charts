@@ -24,7 +24,7 @@ spec:
       annotations:
         prometheus.io/scrape: "{{ .Values.Monitoring.Pod.Scrape }}"
         prometheus.io/port: "{{ .Values.Monitoring.Pod.Port }}"
-        prometheus.io/path: "{{ .Values.Monitoring.Pod.Path | quote }}"
+        prometheus.io/path: "{{ .Values.Monitoring.Pod.Path }}"
         checksum/config: {{ include (print $.Chart.Name "/templates/configmap.yaml") . | sha256sum }}
       labels:
         app: {{ template "satis.fullname" . }}

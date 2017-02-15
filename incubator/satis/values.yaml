@@ -4,8 +4,10 @@
 # nameOverride:
 
 ## The image to use with the resource
-## Ref: https://quay.io/repository/littlemanco/apache-php
-Image:
+## Ref: https://quay.io/repository/littlemanco/satis
+Image: "quay.io/repository/littlemanco/apache-php"
+
+ImageTag: "7.1.1-1"
 
 # securityContext:
 ## Whether the container should be run in "Privileged" mode (essentially, root on the host)
@@ -63,7 +65,7 @@ Monitoring:
   Service:
     Scrape: "true"
   ## Whether to scape the pods associated with this application. Useful for collecting metrics.
-  Pods:
+  Pod:
     ## Monitoring shoudl be configured to only scrape pods that have a value of `true`
     Scrape: "true"
     ## Path on which metrics are exposed
