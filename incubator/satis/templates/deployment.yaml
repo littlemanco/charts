@@ -1,0 +1,85 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  labels:
+    app: {{ template "satis.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "satis.fullname" . }}
+spec:
+  replicas: {{ default 2 .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "satis.fullname" . }}
+      release: "{{ .Release.Name }}"
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: "RollingUpdate"
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "{{ .Values.Monitoring.Pod.Scrape }}"
+        prometheus.io/port: "{{ .Values.Monitoring.Pod.Port }}"
+        prometheus.io/path: "{{ .Values.Monitoring.Pod.Path | quote }}"
+        checksum/config: {{ include (print $.Chart.Name "/templates/configmap.yaml") . | sha256sum }}
+      labels:
+        app: {{ template "satis.fullname" . }}
+        release: "{{ .Release.Name }}"
+    spec:
+      ## Volumes are how Kubernetes expresses either networked storage or other metadata in the filesystem. There are
+      ## storage types, the most useful of which are illustrated below. Remember to uncomment the volumes: node if you
+      ## decide to use them!
+      ##
+      volumes:
+      ## EMPTY DIR - Useful for scratch space, such as for CI
+      ##
+        - name: "scratch"
+          emptyDir: {}
+        - name: "satis"
+          configMap:
+            name: {{ template "satis.fullname" . }}
+      ## Todo: Use SSL here
+      ##
+      ## SECRET
+      ##
+      #   - name: "__VOLUME_NAME__"
+      #     secret:
+      #       secretName: "__SECRET_NAME__"
+      containers:
+        - name: {{ template "satis.name" }}
+          image: {{ .Values.Image | quote }}
+          resources:
+            limits:
+              cpu: {{ .Values.Resources.Limits.Cpu | quote }}
+              memory: {{ .Values.Resources.Limits.Memory | quote }}
+            requests:
+              cpu: {{ .Values.Resources.Requests.Cpu | quote }}
+              memory: {{ .Values.Resources.Requests.Memory | quote }}
+          ports:
+            - containerPort: 80
+              protocol: "TCP"
+              name: "http"
+          volumeMounts:
+            - name: "satis"
+              readOnly: true
+              mountPath: "/etc/satis"
+            - name: "scratch"
+              readOnly: false
+              mountPath: "/var/satis/"
+          livenessProbe:
+            tcpSocket:
+              port: "http"
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: "http"
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            failureThreshold: 3
+      restartPolicy: "Always"

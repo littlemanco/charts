@@ -1,0 +1,21 @@
+---
+name: "satis"
+## The version should track the upstream version, followed by the iteration. This follows the pattern established by the
+## Debian package version.
+## See https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version
+##
+## Satis hasn't actually released the 1.0.0 version of it's application, despie being widely adopted. Instead, the
+## the container tracks the version of the git head it's built against, plus a build number.
+version: "15fcb45-1"
+description: "Simple static Composer repository generator"
+keywords:
+  - "Satis"
+  - "Php"
+  - "Composer"
+home: "https://github.com/composer/satis"
+sources:
+  - "https://github.com/composer/satis"
+maintainers:
+  - name: "Andrew Howden"
+    email: "hello@andrewhowden.com"
+engine: gotpl

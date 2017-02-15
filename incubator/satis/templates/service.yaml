@@ -1,0 +1,26 @@
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  annotations:
+    prometheus.io/scrape: "{{ .Values.monitoring.service.scrape }}"
+  labels:
+    app: {{ template "satis.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "satis.fullname" . }}
+spec:
+  selector:
+    app: {{ template "satis.fullname" . }}
+    release: "{{ .Release.Name }}"
+  ports:
+    - protocol: "TCP"
+      name: "http"
+      port: 80
+  type: {{ default "ClusterIP" .Values.service.type }}
+  {{ if eq .Values.service.type "LoadBalancer" -}}
+  {{ if .Values.service.loadBalancer.publicIp -}}
+  loadBalancerIP: {{ .Values.service.loadBalancer.publicIp }}
+  {{ end -}}
+  {{ end -}}
