@@ -67,23 +67,7 @@ resources:
     ## it may terminated.
     # memory: "512Mi"
 
-persistence:
-  size: "10Gi"
-  # existingClaim:
-  # storageClass:
-
-## Configuration to enable the easy provisioning of certificates with kube-cert-manager and a Boulder compatible CA
-certificate:
-  domain: "www.example.com"
-  email: "user@example.com"
-  ## Consult the Kube cert manager docs for information on how to build this
-  provider: "GoogleCloud"
-
 monitoring:
-  ## Whether to scrape this service with the montoring toolkit. Mostly useful for blackbox probing of a given service
-  ## to ensure it's "up"
-  service:
-    scrape: "true"
   ## Whether to scape the pods associated with this application. Useful for collecting metrics.
   pod:
     ## monitoring shoudl be configured to only scrape pods that have a value of `true`
