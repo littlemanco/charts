@@ -1,7 +1,9 @@
-linkerd-ingress
+Linkerd Ingress Chart
 
-## Accessing linkerd-ingress
-----------------------
+## Using the ingress
+--------------------
+This chart creates an ingress controller. You can see the ingress controller URL by undertaking te following steps:
+
 {{ if .Values.service.loadBalancer.hostName }}
 1. Visit http://{{ .Values.service.loadBalancer.hostName }}
 {{- else }}
@@ -24,5 +26,12 @@ linkerd-ingress
 
 {{- end }}
 {{- end }}
+
+If you wish to create a resource that is routed by this ingress controller, you must create a resource that looks as
+like the following:
+
+    ---
+    # Todo: Write up ingress spec
+
 
 For more information, check the readme!

@@ -19,8 +19,6 @@ service:
   ## - ClusterIP (to the cluster)
   ## - NodePort (to the world, in a custom way)
   type: "LoadBalancer"
-  ## If there is a port associated with a given service, expose it here.
-  # port:
   ## If there is a particular IP that should be used for the service, specify it here.
   ## Note: It's quite unlikely that an IP should be specific. Normally, the best thing to do is leave it to Kubernetes
   ##       to allocate a free IP from the pool.

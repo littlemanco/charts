@@ -15,10 +15,13 @@ spec:
     app: {{ template "linkerd-ingress.fullname" . }}
     release: "{{ .Release.Name }}"
   ports:
-    - protocol: "__CONTAINER_PORT_PROTOCOL__"
-      name: "__CONTAINER_PORT_NAME__"
-      port: __CONTAINER_PORT__
-  type: {{ default "ClusterIP" .Values.service.type }}
+    - protocol: "TCP"
+      name: "http"
+      port: 80
+    - protocol: "TCP"
+      name: "https"
+      port: 443
+  type: {{ default "LoadBalancer" .Values.service.type }}
   {{ if eq .Values.service.type "LoadBalancer" -}}
   {{ if .Values.service.loadBalancer.publicIp -}}
   loadBalancerIP: {{ .Values.service.loadBalancer.publicIp }}
