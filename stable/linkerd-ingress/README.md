@@ -14,3 +14,9 @@
 ### Accessing the admin panel
 
 // Todo: Write up accessing hte admin panel. Also need to think about how we can access each nodse admin panel
+
+### Enabling tracing API
+
+### Enabling Prometheus
+
+// Todo: Move Prometheus annotations out into values.yaml, in both this chart and the others.
