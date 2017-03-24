@@ -25,7 +25,7 @@ spec:
     metadata:
       annotations:
         prometheus.io/scrape: "{{ .Values.monitoring.pod.scrape }}"
-        prometheus.io/port: 9090
+        prometheus.io/port: "9090"
         prometheus.io/path: "/metrics"
         ## Rototate the deployment with every configuration change 
         checksum/config: {{ include (print $.Chart.Name "/templates/configmap.yaml") . | sha256sum }}
