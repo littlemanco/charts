@@ -51,7 +51,7 @@ resources:
     ## How much CPU this container is expected to need
     cpu: "100m"
     ## How much memory this container is expected to need.
-    memory: "512Mi"
+    memory: "128Mi"
   limits:
     ## The max CPU this container should be allowed to use
     # cpu: "100m"
