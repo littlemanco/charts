@@ -5,7 +5,7 @@
 
 ## The image to use with the resource
 ## Ref: https://quay.io/repository/littlemanco/apache-php
-image:
+image: "buoyantio/linkerd:0.9.1-32b"
 
 service:
   ## What scope the service should be exposed in. One of:
